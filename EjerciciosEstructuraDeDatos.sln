@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32414.318
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Semana1", "EjerciciosEstructuraDeDatos.vcxproj", "{E3A646DE-E0B3-4B58-9245-5F50C7FDEB04}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Principal", "EjerciciosEstructuraDeDatos.vcxproj", "{E3A646DE-E0B3-4B58-9245-5F50C7FDEB04}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "APIDataFile", "DataFileAPI\DataFileAPI.vcxproj", "{AF9C8391-2C5D-498B-AA2B-B1B0560F103A}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Semana11", "Semana11\Semana11.vcxproj", "{5A2E9715-CE9C-4CBC-8243-933F32909860}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Semana1", "Semana1\Semana1.vcxproj", "{5A2E9715-CE9C-4CBC-8243-933F32909860}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
