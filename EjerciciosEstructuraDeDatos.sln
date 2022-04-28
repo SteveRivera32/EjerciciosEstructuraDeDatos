@@ -5,7 +5,9 @@ VisualStudioVersion = 17.1.32414.318
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Semana1", "EjerciciosEstructuraDeDatos.vcxproj", "{E3A646DE-E0B3-4B58-9245-5F50C7FDEB04}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "APIDataFile", "..\DataFileAPI\DataFileAPI.vcxproj", "{AF9C8391-2C5D-498B-AA2B-B1B0560F103A}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "APIDataFile", "DataFileAPI\DataFileAPI.vcxproj", "{AF9C8391-2C5D-498B-AA2B-B1B0560F103A}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Semana11", "Semana11\Semana11.vcxproj", "{5A2E9715-CE9C-4CBC-8243-933F32909860}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +33,14 @@ Global
 		{AF9C8391-2C5D-498B-AA2B-B1B0560F103A}.Release|x64.Build.0 = Release|x64
 		{AF9C8391-2C5D-498B-AA2B-B1B0560F103A}.Release|x86.ActiveCfg = Release|Win32
 		{AF9C8391-2C5D-498B-AA2B-B1B0560F103A}.Release|x86.Build.0 = Release|Win32
+		{5A2E9715-CE9C-4CBC-8243-933F32909860}.Debug|x64.ActiveCfg = Debug|x64
+		{5A2E9715-CE9C-4CBC-8243-933F32909860}.Debug|x64.Build.0 = Debug|x64
+		{5A2E9715-CE9C-4CBC-8243-933F32909860}.Debug|x86.ActiveCfg = Debug|Win32
+		{5A2E9715-CE9C-4CBC-8243-933F32909860}.Debug|x86.Build.0 = Debug|Win32
+		{5A2E9715-CE9C-4CBC-8243-933F32909860}.Release|x64.ActiveCfg = Release|x64
+		{5A2E9715-CE9C-4CBC-8243-933F32909860}.Release|x64.Build.0 = Release|x64
+		{5A2E9715-CE9C-4CBC-8243-933F32909860}.Release|x86.ActiveCfg = Release|Win32
+		{5A2E9715-CE9C-4CBC-8243-933F32909860}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -5,54 +5,55 @@
 
 using namespace std;
 
-void Banco::agregarEmpleado(int _codigo, const char* _nombre)
+void Banco::agregarCuenta(int _codigo, const char* _nombre)
 {
-	ofstream archivoEmpleado("empleados.bin", ios::out | ios::app | ios::binary);
+	ofstream archivoCuenta("cuentas.bin", ios::out | ios::app | ios::binary);
 
-	if (!archivoEmpleado)
+	if (!archivoCuenta)
 	{
-		cout << "Error al intentar abrir el archivo empleados.bin\n";
+		cout << "Error al intentar abrir el archivo cuentas.bin\n";
 		return;
 	}
 
-	Empleado nuevo;
+	Cuenta nuevo;
 	nuevo.codigo = _codigo;
 	strcpy_s(nuevo.nombre, strlen(_nombre) + 1, _nombre);
 	nuevo.saldo = 0;
 
-	if (!empleadoExiste(nuevo.codigo)) {
-		archivoEmpleado.write(reinterpret_cast<const char*>(&nuevo), sizeof(Empleado));
+	if (!cuentaExiste(nuevo.codigo)) {
+		archivoCuenta.write(reinterpret_cast<const char*>(&nuevo), sizeof(Cuenta));
 
 		cout << "\nRegistro almacenado!\n";
-		archivoEmpleado.close();
-	}else
-		cout << "\nNo se pudo agregar, el codigo ya está en uso.\n";
+		archivoCuenta.close();
+	}
+	else
+		cout << "\nNo se pudo agregar, el codigo ya esta en uso.\n";
 }
 
-bool Banco::empleadoExiste(int _codigo)
+bool Banco::cuentaExiste(int _codigo)
 {
-	fstream archivoEmpleado("empleados.bin", ios::in | ios::out | ios::binary);
+	fstream archivoCuenta("cuentas.bin", ios::in | ios::out | ios::binary);
 
-	if (!archivoEmpleado)
+	if (!archivoCuenta)
 	{
-		cout << "Error al intentar abrir el archivo empleados.bin\n";
+		cout << "Error al intentar abrir el archivo cuentas.bin\n";
 		return NULL;
 	}
 
-	archivoEmpleado.seekg(0, ios::beg);
+	archivoCuenta.seekg(0, ios::beg);
 	long posicionArchivo = 0;
 
-	Empleado actual;
-	archivoEmpleado.read(reinterpret_cast<char*>(&actual), sizeof(Empleado));
+	Cuenta actual;
+	archivoCuenta.read(reinterpret_cast<char*>(&actual), sizeof(Cuenta));
 
-	while (!archivoEmpleado.eof()) {
+	while (!archivoCuenta.eof()) {
 		if (actual.codigo == _codigo)
 			return true;
 
-		archivoEmpleado.read(reinterpret_cast<char*>(&actual), sizeof(Empleado));
+		archivoCuenta.read(reinterpret_cast<char*>(&actual), sizeof(Cuenta));
 	}
 
-	archivoEmpleado.close();
+	archivoCuenta.close();
 	return false;
 }
 
@@ -72,7 +73,7 @@ void Banco::transaccion(int _codigo, short _tipoMovimiento, float _monto)
 	nuevo.monto = _monto;
 
 	if (_tipoMovimiento == 1) {
-		if (empleadoExiste(_codigo)) {
+		if (cuentaExiste(_codigo)) {
 			if (cambiarSaldo(_codigo, _tipoMovimiento, _monto)) {
 				archivoTransaccion.write(reinterpret_cast<const char*>(&nuevo), sizeof(Transaccion));
 
@@ -84,10 +85,10 @@ void Banco::transaccion(int _codigo, short _tipoMovimiento, float _monto)
 
 		}
 		else
-			cout << "\nEl deposito se pudo realizar, el empleado no existe.\n";
+			cout << "\nEl deposito se pudo realizar, la cuenta no existe.\n";
 	}
 	else if (_tipoMovimiento == 0) {
-		if (empleadoExiste(_codigo)) {
+		if (cuentaExiste(_codigo)) {
 			if (cambiarSaldo(_codigo, _tipoMovimiento, _monto)) {
 				archivoTransaccion.write(reinterpret_cast<const char*>(&nuevo), sizeof(Transaccion));
 
@@ -99,27 +100,27 @@ void Banco::transaccion(int _codigo, short _tipoMovimiento, float _monto)
 
 		}
 		else
-			cout << "\nEl retiro se pudo realizar, el empleado no existe.\n";
+			cout << "\nEl retiro se pudo realizar, la cuenta no existe.\n";
 	}
 }
 
 bool Banco::cambiarSaldo(int _codigo, short _tipoMovimiento, float _monto)
 {
-	fstream archivoEmpleado("empleados.bin", ios::in | ios::out | ios::binary);
+	fstream archivoCuenta("cuentas.bin", ios::in | ios::out | ios::binary);
 
-	if (!archivoEmpleado)
+	if (!archivoCuenta)
 	{
-		cout << "Error al intentar abrir el archivo empleados.bin\n";
+		cout << "Error al intentar abrir el archivo cuentas.bin\n";
 		return false;
 	}
 
-	archivoEmpleado.seekg(0, ios::beg);
+	archivoCuenta.seekg(0, ios::beg);
 	long posicionArchivo = 0;
 
-	Empleado actual;
-	archivoEmpleado.read(reinterpret_cast<char*>(&actual), sizeof(Empleado));
+	Cuenta actual;
+	archivoCuenta.read(reinterpret_cast<char*>(&actual), sizeof(Cuenta));
 
-	while (!archivoEmpleado.eof()) {
+	while (!archivoCuenta.eof()) {
 		if (actual.codigo == _codigo) {
 			if (_tipoMovimiento == 0) {
 				if (_monto <= actual.saldo) {
@@ -132,49 +133,49 @@ bool Banco::cambiarSaldo(int _codigo, short _tipoMovimiento, float _monto)
 				actual.saldo += _monto;
 			}
 
-			archivoEmpleado.seekp(posicionArchivo, ios::beg);
-			archivoEmpleado.write(reinterpret_cast<const char*>(&actual), sizeof(Empleado));
-			archivoEmpleado.close();
+			archivoCuenta.seekp(posicionArchivo, ios::beg);
+			archivoCuenta.write(reinterpret_cast<const char*>(&actual), sizeof(Cuenta));
+			archivoCuenta.close();
 
 			return true;
 		}
-		posicionArchivo = archivoEmpleado.tellg();
-		archivoEmpleado.read(reinterpret_cast<char*>(&actual), sizeof(Empleado));
+		posicionArchivo = archivoCuenta.tellg();
+		archivoCuenta.read(reinterpret_cast<char*>(&actual), sizeof(Cuenta));
 	}
 
-	archivoEmpleado.close();
+	archivoCuenta.close();
 	return false;
 }
 
-void Banco::imprimirEmpleados()
+void Banco::imprimirCuentas()
 {
-	fstream archivoEmpleado("empleados.bin", ios::in | ios::out | ios::binary);
+	fstream archivoCuenta("cuentas.bin", ios::in | ios::out | ios::binary);
 
-	if (!archivoEmpleado)
+	if (!archivoCuenta)
 	{
-		cout << "Error al intentar abrir el archivo empleados.bin\n";
+		cout << "Error al intentar abrir el archivo cuentas.bin\n";
 		return;
 	}
 
-	archivoEmpleado.seekg(0, ios::beg);
+	archivoCuenta.seekg(0, ios::beg);
 
-	Empleado actual;
-	archivoEmpleado.read(reinterpret_cast<char*>(&actual), sizeof(Empleado));
+	Cuenta actual;
+	archivoCuenta.read(reinterpret_cast<char*>(&actual), sizeof(Cuenta));
 
 	int i = 1;
 
-	cout << "\n--- Empleados ---\n";
-	while (!archivoEmpleado.eof()) {
+	cout << "\n--- Cuentas ---\n";
+	while (!archivoCuenta.eof()) {
 
-		cout << "Empleado " << i << " { codigo: " << actual.codigo << ", nombre: " << actual.nombre
+		cout << "Cuenta " << i << " { codigo: " << actual.codigo << ", nombre: " << actual.nombre
 			<< ", saldo: " << actual.saldo << " }\n";
 
 		i += 1;
-		archivoEmpleado.read(reinterpret_cast<char*>(&actual), sizeof(Empleado));
+		archivoCuenta.read(reinterpret_cast<char*>(&actual), sizeof(Cuenta));
 	}
 
 	cout << "-----------------\n";
-	archivoEmpleado.close();
+	archivoCuenta.close();
 }
 
 void Banco::imprimirTransacciones()
@@ -197,9 +198,9 @@ void Banco::imprimirTransacciones()
 
 		cout << actual.codigo << " " << actual.tipoMovimiento << " " << actual.monto
 			<< " ---> ";
-		if (actual.tipoMovimiento == 0) 
+		if (actual.tipoMovimiento == 0)
 			cout << "retiro de L" << actual.monto << "\n";
-		else if (actual.tipoMovimiento == 1) 
+		else if (actual.tipoMovimiento == 1)
 			cout << "deposito de L" << actual.monto << "\n";
 
 		archivoTransaccion.read(reinterpret_cast<char*>(&actual), sizeof(Transaccion));

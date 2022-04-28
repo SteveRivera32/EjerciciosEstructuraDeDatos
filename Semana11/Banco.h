@@ -3,7 +3,7 @@
 #ifndef BANCO_H
 #define BANCO_H
 
-struct Empleado {
+struct Cuenta {
 	int codigo;
 	char nombre[30];
 	float saldo;
@@ -18,12 +18,12 @@ struct Transaccion {
 class Banco
 {
 public:
-	void agregarEmpleado(int, const char*);
-	bool empleadoExiste(int);
+	void agregarCuenta(int, const char*);
+	bool cuentaExiste(int);
 	void transaccion(int, short, float);
 	bool cambiarSaldo(int, short, float);
 
-	void imprimirEmpleados();
+	void imprimirCuentas();
 	void imprimirTransacciones();
 };
 

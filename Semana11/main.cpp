@@ -11,12 +11,12 @@ int main() {
 
 	cout << "*** B A N C O ***\n";
 
-	do {	
+	do {
 		cout << "\n************** Menu **************\n"
-			<< "1. Agregar Empleado\n"
+			<< "1. Agregar Cuenta\n"
 			<< "2. Depositar\n"
 			<< "3. Retirar\n"
-			<< "4. Imprimir Empleados\n"
+			<< "4. Imprimir Cuentas\n"
 			<< "5. Imprimir Transacciones\n"
 			<< "6. Salir\n"
 			<< "Seleccione una opcion (numero): \n";
@@ -24,16 +24,16 @@ int main() {
 
 		switch (opcion) {
 		case 1:
-			cout << "\nIndique el codigo del empleado:";
+			cout << "\nIndique el codigo de la cuenta:";
 			cin >> codigo;
 
-			cout << "\nIndique el nombre del empleado:";
+			cout << "\nIndique el nombre de la cuenta:";
 			cin >> nombre;
 
-			banco->agregarEmpleado(codigo, nombre);
+			banco->agregarCuenta(codigo, nombre);
 			break;
 		case 2:
-			cout << "\nIndique el codigo del empleado:";
+			cout << "\nIndique el codigo de la cuenta:";
 			cin >> codigo;
 
 			cout << "\nIndique el monto a depositar:";
@@ -42,7 +42,7 @@ int main() {
 			banco->transaccion(codigo, 1, monto);
 			break;
 		case 3:
-			cout << "\nIndique el codigo del empleado:";
+			cout << "\nIndique el codigo de la cuenta:";
 			cin >> codigo;
 
 			cout << "\nIndique el monto a retirar:";
@@ -51,7 +51,7 @@ int main() {
 			banco->transaccion(codigo, 0, monto);
 			break;
 		case 4:
-			banco->imprimirEmpleados();
+			banco->imprimirCuentas();
 			break;
 		case 5:
 			banco->imprimirTransacciones();
