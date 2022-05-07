@@ -9,7 +9,7 @@ private:
 	class Employee {
 	private:
 		int code;
-		char name[30];
+		char name[20];
 		float salary;
 		bool status;
 
@@ -28,8 +28,12 @@ private:
 
 public:
 	APIFile();
+	APIFile(const char*);
 
 	void saveEmployee();
 	void readEmployee(int);
+	void BusquedaBinaria(int);
+    bool fileExists();
+	
 };
 

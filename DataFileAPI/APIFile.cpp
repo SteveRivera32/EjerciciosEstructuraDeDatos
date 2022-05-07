@@ -1,9 +1,11 @@
 #include "APIFile.h"
 #include <iostream>
+#include <string>
+#include <ctime>
 
-using std::cout;
+using namespace std;
 
-APIFile::Employee::Employee() : code(0), salary(0), status(0) 
+APIFile::Employee::Employee() : code(0), salary(0), status(0)
 {
     memcpy(name, "NotDefined", strlen("NotDefined") + 1);
 }
@@ -16,7 +18,7 @@ APIFile::Employee::Employee(int _code, const char _name[], float _salary)
 
 void APIFile::Employee::printEmployee()
 {
-    cout << "Employee { code: " << code << ", name: " << name
+    cout << "\nEmployee { code: " << code << ", name: " << name
         << ", salary: " << salary << ", status: " << status << " }\n";
 }
 
@@ -55,24 +57,52 @@ APIFile::APIFile()
     file = new DataFile("testEmployee.bin");
 }
 
+APIFile::APIFile(const char* _filename)
+{
+    file = new DataFile(_filename);
+}
+
 void APIFile::saveEmployee()
 {
     file->open("W");
 
-    Employee* newone = new Employee(100, "Allan Brito", 800);
+    /*Employee* newone = new Employee(100, "Allan Brito", 800);
     file->write(newone->toChar(), 0, newone->getSizeOf());
-
+    
     newone = new Employee(101, "Raquel Lopez", 1200);
     file->write(newone->toChar(), newone->getSizeOf(), newone->getSizeOf());
 
     newone = new Employee(102, "Roberto Perez", 1500);
-    file->write(newone->toChar(), newone->getSizeOf() * 2, newone->getSizeOf());
+    file->write(newone->toChar(), newone->getSizeOf() * 2, newone->getSizeOf());*/
+
+    Employee* newone;
+
+    for (int i = 1; i <= 100000; i++) {
+        //concatenar con string
+        std::string nombreString = "empleado_" + std::to_string(i);
+
+        //cambiar string a char array
+        char nombreChar[20];
+        strcpy_s(nombreChar, nombreString.c_str());
+
+        newone = new Employee(i, nombreChar, 800 + rand() % 1401);
+        file->write(newone->toChar(), newone->getSizeOf() * (i-1), newone->getSizeOf());
+    }
+    cout << "\nArchivo generado!\n";
 
     file->close();
 }
 
 void APIFile::readEmployee(int _codeSearch)
 {
+    if (_codeSearch > 100000 || _codeSearch < 1) {
+        cout << "\nEmpleado no encontrado.\n";
+        return;
+    }
+
+    unsigned t0, t1;
+    t0 = clock();
+
     int currentPosition = 0;
     file->open("R");
     
@@ -84,6 +114,7 @@ void APIFile::readEmployee(int _codeSearch)
     bool found = false;
 
     while (!file->isEof()) {
+
         if (toFind->getCode() == _codeSearch) {
             toFind->printEmployee();
             found = true;
@@ -95,7 +126,73 @@ void APIFile::readEmployee(int _codeSearch)
     }
 
     if (!found)
-        cout << "Employee not found!\n";
+        cout << "\nEmpleado no encontrado.\n";
+  
+    file->close();
+
+    t1 = clock();
+    double time = (double(t1 - t0) / CLOCKS_PER_SEC);
+    double timems = time * 1000;
+    cout << "Tiempo que se tardo: " << timems << " milisegundos" << endl;
+}
+
+void APIFile::BusquedaBinaria(int _codigo)
+{
+    if (_codigo > 100000 || _codigo < 1) {
+        cout << "\nEmpleado no encontrado.\n";
+        return;
+    }
+
+    unsigned t0, t1;
+    t0 = clock();
+
+    file->open("R");
+    Employee* toFind = new Employee();
+
+    int primero, ultimo, medio, cantidad;
+    cantidad = 100000;
+    primero = 0;
+    ultimo = cantidad - 1;
+    medio = (primero + ultimo) / 2;
+
+    int currentPosition = toFind->getSizeOf() * medio;
+    bool found = 0;
+
+    while (true) {
+        if (toFind->getCode() == _codigo)
+        {
+            toFind->printEmployee();
+            found = true;
+            break;
+        }
+
+        toFind->fromChar(file->read(currentPosition, toFind->getSizeOf()));
+
+        if (toFind->getCode() < _codigo)
+        {
+            primero = medio + 1;
+
+        }
+        else if (toFind->getCode() > _codigo)
+        {
+            ultimo = medio - 1;
+        }
+        medio = (primero + ultimo) / 2;
+
+        currentPosition = toFind->getSizeOf() * medio;
+    }
 
     file->close();
+
+    t1 = clock();
+    double time = (double(t1 - t0) / CLOCKS_PER_SEC);
+    double timems = time * 1000;
+    cout << "Tiempo que se tardo: " << timems << " milisegundos" << endl;
+
 }
+
+bool APIFile::fileExists()
+{
+    return file->exists();
+}
+

@@ -15,6 +15,7 @@ public:
 
 	void open(const char*);
 	void close();
+	bool exists();
 
 	void write(char*, unsigned int, unsigned int);
 	char* read(unsigned int, unsigned int);

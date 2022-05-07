@@ -1,4 +1,9 @@
 #include "DataFile.h"
+#include <string>
+#include <fstream>
+#include <iostream>
+
+using namespace std;
 
 DataFile::DataFile() : path(nullptr) {}
 
@@ -31,6 +36,18 @@ void DataFile::open(const char* _openFormat)
 void DataFile::close()
 {
 	file.close();
+}
+
+bool DataFile::exists()
+{
+	openMode = ios_base::in;
+	file.open(path, openMode | std::ios::binary);
+
+	if (!file)
+		return false;
+	
+	file.close();
+	return true;
 }
 
 void DataFile::write(char* _data, unsigned int _position, unsigned int _length)
